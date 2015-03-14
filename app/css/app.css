@@ -1,0 +1,11 @@
+#log{
+  height: 10em;
+  overflow: auto;
+}
+#log > *{
+  margin: 0;
+  padding: 1em;
+}
+#log > *:nth-child(even){
+  background-color: #eee;
+}
