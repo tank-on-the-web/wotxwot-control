@@ -1,5 +1,5 @@
 (function(){
-  const SERVER = "ws://192.168.100.104/ws/";
+  const SERVER = "ws://192.168.100.108/ws/";
   const INTERVAL = 500;
 
   var Logger = require("./logger");

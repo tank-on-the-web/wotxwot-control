@@ -39,6 +39,7 @@
         socket.onmessage = (event) => {
           this.log(event.data);
         };        
+        this.update();
       }
     },
     stop: function(){
@@ -49,7 +50,8 @@
     },
     update: function(){
       if(this.working){
-        this.sokcet.send(createMessage(this.pad));
+        var msg = createMessage(this.pad);
+        this.socket.send(msg.buffer);
         window.setTimeout(() =>{
           this.update();
         }, this.interval);
@@ -62,7 +64,7 @@
       return this._log || console.log;
     },
     get socket(){
-      return this._socker;
+      return this._socket;
     },
     get ready(){
       return this.server != null && this.pad != null && this.socket == null;
