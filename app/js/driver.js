@@ -57,6 +57,11 @@
         }, this.interval);
       }
     },
+    restart: function(server){
+      this._server = server;
+      this.stop();
+      this.start();
+    },
     get working(){
       return this.pad != null && this.socket != null;
     },

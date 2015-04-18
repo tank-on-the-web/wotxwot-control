@@ -12,14 +12,14 @@ gulp.task("start-server", function() {
 });
 
 gulp.task("build", function(){
-  /*
+  
   var browserify = require( 'browserify' );
   var source     = require( 'vinyl-source-stream' );
-  browserify( 'js/main', { debug: true } )
+  browserify( './app/js/main.js', { debug: true } )
     .bundle()
     .pipe( source( 'app.js' ) )
-    .pipe( gulp.dest( './js' ));  
-*/
+    .pipe( gulp.dest( './app/js' ));  
+
 });
 
 // lint：JavaScriptの文法チェックを行うタスク
@@ -31,7 +31,7 @@ gulp.task("lint", function () {
 
 // watch：ファイルの変更を監視して list を起動
 gulp.task("watch",function(){
-  gulp.watch(["app/js/**/*.js", "server/**/*.js"], ["lint"]);
+  gulp.watch(["app/js/**/*.js", "server/**/*.js"], ["lint", "build"]);
 });
 
 // デフォルトのタスクを指定

@@ -1,5 +1,5 @@
 (function(){
-  const SERVER = "ws://192.168.100.108/ws/";
+  const SERVER_KEY = "server_ip";
   const INTERVAL = 500;
 
   var Logger = require("./logger");
@@ -31,7 +31,7 @@
       app.tankView = createTankView(app.pad);
 
       app.pad.calibrate().then(() =>{
-        app.driver = new Driver(SERVER,
+        app.driver = new Driver(app.url,
                                 app.pad,
                                 INTERVAL,
                                 log);
@@ -45,8 +45,22 @@
     app.pad = null;
   };
 
+  var onServerChanged = function(event){
+    var server = app.serverInput.value;
+    app.url = "ws://" + server + "/ws/";
+    window.localStorage.setItem(SERVER_KEY, server);
+    app.driver.restart(app.url);
+  };
+
   window.addEventListener("load", function(){
+    var server = (window.localStorage.getItem(SERVER_KEY) || "192.168.1.10");
+    app.url = "ws://" + server + "/ws/";
+    app.serverInput = document.querySelector("#server");
+    app.serverInput.value = server;
+    app.serverInput.onchange = onServerChanged;
+
     app.logger = new Logger(document.querySelector("#log"));
+
 
     log("app started");
     window.addEventListener("gamepadconnected", 
