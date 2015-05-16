@@ -47,14 +47,14 @@
 
   var onServerChanged = function(event){
     var server = app.serverInput.value;
-    app.url = "ws://" + server + "/ws/";
+    app.url = server;
     window.localStorage.setItem(SERVER_KEY, server);
     app.driver.restart(app.url);
   };
 
   window.addEventListener("load", function(){
-    var server = (window.localStorage.getItem(SERVER_KEY) || "192.168.1.10");
-    app.url = "ws://" + server + "/ws/";
+    var server = (window.localStorage.getItem(SERVER_KEY) || "ws://192.168.1.1/ws");
+    app.url = server;
     app.serverInput = document.querySelector("#server");
     app.serverInput.value = server;
     app.serverInput.onchange = onServerChanged;

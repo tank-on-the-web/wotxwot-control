@@ -22,23 +22,42 @@
     start: function(){
       if(this.ready){
         this.log("start driver");
-        this.log("creating a socket to " + this.server);
-        var socket = new WebSocket(this.server);
-        socket.onopen = (event) => {
-          this.log("Socket is opened");
-          this._socket = socket;
-          this.update();
-        };
-        socket.onclose = (event) => {
-          this. log("Socket is closed");
-          this._socket = null;
-        };
-        socket.error = (event) =>{
-          this.log(event.data);
-        };
-        socket.onmessage = (event) => {
-          this.log(event.data);
-        };        
+        if (this.server.indexOf("ws://") === 0) {
+          this.log("creating a socket to " + this.server);
+          var socket = new WebSocket(this.server);
+          socket.onopen = (event) => {
+            this.log("Socket is opened");
+            this._socket = socket;
+            this.update();
+          };
+          socket.onclose = (event) => {
+            this. log("Socket is closed");
+            this._socket = null;
+          };
+          socket.error = (event) =>{
+            this.log(event.data);
+          };
+          socket.onmessage = (event) => {
+            this.log(event.data);
+          };
+          this.sendMessage = () => {
+            var msg = createMessage(this.pad);
+            this.socket.send(msg.buffer);
+          };
+        } else if (this.server.indexOf("http://") === 0) {
+          this.log("server url is " + this.server);
+          this._http = true;
+          this.sendMessage = () => {
+            var url = this.server + "/put?lv=" + this.pad.leftStick.y + "&rv=" + this.pad.rightStick.y;
+            // this.log(url);
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.send();
+            xhr.addEventListener("error", (evt) => {
+              this.log("Failed to send: " + url);
+            });
+          };
+        }
         this.update();
       }
     },
@@ -50,8 +69,7 @@
     },
     update: function(){
       if(this.working){
-        var msg = createMessage(this.pad);
-        this.socket.send(msg.buffer);
+        this.sendMessage();
         window.setTimeout(() =>{
           this.update();
         }, this.interval);
@@ -63,7 +81,7 @@
       this.start();
     },
     get working(){
-      return this.pad != null && this.socket != null;
+      return this.pad != null && (this._http || this.socket != null);
     },
     get log(){
       return this._log || console.log;
