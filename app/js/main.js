@@ -1,6 +1,6 @@
 (function(){
   const SERVER_KEY = "server_ip";
-  const INTERVAL = 500;
+  const INTERVAL = 200;
 
   var Logger = require("./logger");
   var Pad = require("./pad");

@@ -11,8 +11,8 @@
       rv: pad.rightStick.y
     };
     var message = {
-      type: "motor",
-      data: data
+      motor: data,
+      fire: pad.buttons[10].pressed || pad.buttons[11].pressed
     };
     return JSON.stringify(message);
   };

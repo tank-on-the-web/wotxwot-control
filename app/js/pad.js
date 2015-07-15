@@ -34,6 +34,9 @@
     get id(){
       return this.pad.id;
     },
+    get buttons() {
+      return this.pad.buttons;
+    },
     get axes(){
       var ret = [];
       for(var i = 0; i < this.pad.axes.length; i++){
