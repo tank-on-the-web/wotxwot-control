@@ -6,10 +6,15 @@
   };
 
   var createMessage = function(pad){
-    var message = new Int8Array(new ArrayBuffer(2));
-    message[0] = pad.leftStick.y;
-    message[1] = pad.rightStick.y;
-    return message;
+    var data = {
+      lv: pad.leftStick.y,
+      rv: pad.rightStick.y
+    };
+    var message = {
+      type: "motor",
+      data: data
+    };
+    return JSON.stringify(message);
   };
 
   Driver.prototype = {
@@ -42,7 +47,7 @@
           };
           this.sendMessage = () => {
             var msg = createMessage(this.pad);
-            this.socket.send(msg.buffer);
+            this.socket.send(msg);
           };
         } else if (this.server.indexOf("http://") === 0) {
           this.log("server url is " + this.server);
