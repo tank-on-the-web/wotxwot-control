@@ -1,3 +1,16 @@
+body {
+  margin: 0;
+}
+#ctrl-view {
+  margin: 18px;
+}
+#server {
+  font-size: 14pt;
+  width: 30%;
+}
+#open-tank-view {
+  font-size: 14pt;
+}
 #log{
   height: 10em;
   overflow: auto;
@@ -8,4 +21,12 @@
 }
 #log > *:nth-child(even){
   background-color: #eee;
+}
+#tank-view{
+  width: 100vw;
+  height: 100vh;
+}
+#tank-view > iframe{
+  width: 100vw;
+  height: 100vh;
 }

@@ -49,7 +49,9 @@
     var server = app.serverInput.value;
     app.url = server;
     window.localStorage.setItem(SERVER_KEY, server);
-    app.driver.restart(app.url);
+    if (app.driver) {
+      app.driver.restart(app.url);
+    }
   };
 
   window.addEventListener("load", function(){
@@ -61,6 +63,25 @@
 
     app.logger = new Logger(document.querySelector("#log"));
 
+    document.getElementById('open-tank-view').onclick = function () {
+      var tankView = document.getElementById('tank-view');
+      var ctrlView = document.getElementById('ctrl-view');
+      tankView.style.display = 'block';
+      ctrlView.style.display = 'none';
+
+      var url = document.createElement('a');
+      var iframe = tankView.querySelector('iframe');
+      url.href = app.url;
+      iframe.src = 'http://' + url.hostname + ':7080';
+      document.addEventListener('keydown', function onKeyDown(evt) {
+        if (evt.key === 'Enter')
+        // close it!
+        iframe.src = '';
+        tankView.style.display = 'none';
+        ctrlView.style.display = 'block';
+        document.removeEventListener('keydown', onKeyDown);
+      });
+    }
 
     log("app started");
     window.addEventListener("gamepadconnected", 
