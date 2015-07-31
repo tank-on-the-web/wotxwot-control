@@ -12,5 +12,8 @@
     "gulp-watch": "^2.0.0",
     "jshint-stylish": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "scripts": {
+    "start": "gulp start-server"
   }
 }
